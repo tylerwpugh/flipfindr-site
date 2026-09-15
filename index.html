@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FlipFindr — Score the listings. Send the offers.</title>
+<meta name="description" content="FlipFindr ranks every MLS listing by how motivated the seller looks, fills your contract, and emails the offer to the listing agent from your own address.">
+<style>
+  :root{
+    --ink:#0f1d29; --body:#46586a; --mid:#6b7c8c; --line:#e3e9ef; --hair:#eef2f6;
+    --accent:#1763d6; --accent-dk:#0f4ba8; --wash:#f5f8fc; --good:#1f9254;
+    --shadow:0 1px 2px rgba(15,29,41,.05), 0 8px 24px -12px rgba(15,29,41,.12);
+  }
+  *{box-sizing:border-box}
+  html{-webkit-font-smoothing:antialiased}
+  body{margin:0;color:var(--body);background:#fff;
+       font:16.5px/1.62 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  h1,h2,h3,strong,b{color:var(--ink)}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:960px;margin:0 auto;padding:0 28px}
+
+  header{border-bottom:1px solid var(--hair);position:sticky;top:0;background:rgba(255,255,255,.92);
+         backdrop-filter:saturate(160%) blur(8px);z-index:10}
+  header .wrap{display:flex;align-items:center;justify-content:space-between;padding:16px 28px}
+  .brand{font-weight:700;font-size:18.5px;letter-spacing:-.024em;color:var(--ink)}
+  .brand .dot{color:var(--accent)}
+  .nav a{font-size:15px;margin-left:22px;color:var(--body)}
+  .nav a:hover{color:var(--accent)}
+
+  .hero{padding:84px 0 66px;background:
+        radial-gradient(900px 380px at 12% -10%, #eef4fd 0%, rgba(255,255,255,0) 70%);
+        border-bottom:1px solid var(--hair)}
+  .eyebrow{display:inline-block;font-size:12.5px;font-weight:600;letter-spacing:.07em;
+           text-transform:uppercase;color:var(--accent);background:#e9f1fd;
+           padding:5px 11px;border-radius:100px;margin-bottom:20px}
+  h1{font-size:50px;line-height:1.06;margin:0 0 20px;letter-spacing:-.034em;max-width:15ch}
+  .lede{font-size:19.5px;color:var(--body);margin:0 0 26px;max-width:56ch;line-height:1.55}
+  .contrast{font-size:17px;max-width:52ch;margin:0 0 32px;padding:15px 18px;
+            border-left:3px solid var(--accent);background:var(--wash);border-radius:0 8px 8px 0}
+  .contrast b{color:var(--ink)}
+  .btn{display:inline-block;background:var(--accent);color:#fff;padding:13px 25px;
+       border-radius:8px;font-weight:600;font-size:16px;box-shadow:var(--shadow)}
+  .btn:hover{background:var(--accent-dk);text-decoration:none}
+  .btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--line);box-shadow:none;margin-left:8px}
+  .btn.ghost:hover{background:var(--wash);border-color:#cfd9e4}
+
+  h2.sec{font-size:12.5px;text-transform:uppercase;letter-spacing:.09em;color:var(--mid);
+     margin:66px 0 20px;font-weight:600}
+
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:18px;
+         margin:0;padding:0;list-style:none}
+  .card{border:1px solid var(--line);border-radius:11px;padding:22px 22px 24px;background:#fff;
+        transition:border-color .15s ease, transform .15s ease, box-shadow .15s ease}
+  .card:hover{border-color:#cfdcea;transform:translateY(-2px);box-shadow:var(--shadow)}
+  .card h3{margin:0 0 7px;font-size:16.5px;letter-spacing:-.012em}
+  .card p{margin:0;font-size:15px;color:var(--body);line-height:1.55}
+  .ico{width:32px;height:32px;border-radius:8px;background:#e9f1fd;display:flex;
+       align-items:center;justify-content:center;margin-bottom:13px}
+  .ico svg{width:17px;height:17px;stroke:var(--accent);fill:none;stroke-width:2;
+           stroke-linecap:round;stroke-linejoin:round}
+  .step .n{width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;
+           font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;
+           margin-bottom:12px}
+
+  .founder{border:1px solid var(--line);border-left:3px solid var(--accent);
+           border-radius:0 11px 11px 0;padding:26px 28px;background:var(--wash)}
+  .founder p{margin:0 0 12px;font-size:18px;line-height:1.55;color:var(--ink)}
+  .founder .by{margin:0;color:var(--mid);font-size:15px}
+
+  .gmail{border:1px solid var(--line);border-radius:11px;padding:24px 26px}
+  .gmail h3{margin:0 0 9px;font-size:17.5px}
+  .gmail p{margin:0 0 11px;font-size:15.5px}
+  .gmail ul{margin:0;padding-left:20px;font-size:15.5px}
+  .gmail li{margin-bottom:5px}
+
+  .price{border:1px solid var(--line);border-radius:13px;padding:30px;max-width:430px;
+         box-shadow:var(--shadow)}
+  .amt{font-size:42px;font-weight:700;letter-spacing:-.03em;line-height:1;color:var(--ink)}
+  .per{color:var(--mid);font-size:16.5px;font-weight:400;letter-spacing:0}
+  .price ul{list-style:none;padding:0;margin:20px 0 22px}
+  .price li{padding:6px 0 6px 26px;position:relative;font-size:15.5px}
+  .price li:before{content:"";position:absolute;left:2px;top:12px;width:10px;height:5px;
+    border-left:2px solid var(--good);border-bottom:2px solid var(--good);transform:rotate(-45deg)}
+  .setup{color:var(--mid);font-size:14.5px;margin:12px 0 0;line-height:1.55}
+
+  details{border-bottom:1px solid var(--hair);padding:16px 0}
+  summary{cursor:pointer;font-weight:600;font-size:16px;list-style:none;color:var(--ink)}
+  summary::-webkit-details-marker{display:none}
+  summary:before{content:"+";color:var(--accent);font-weight:700;margin-right:11px;
+                 display:inline-block;width:12px}
+  details[open] summary:before{content:"\2212"}
+  details p{margin:11px 0 0 23px;font-size:15.5px}
+
+  .close{padding:70px 0 14px;text-align:center}
+  .close h3{font-size:29px;margin:0 0 12px;letter-spacing:-.025em;line-height:1.2}
+  .close p{margin:0 0 24px;font-size:17px}
+
+  footer{border-top:1px solid var(--hair);margin-top:62px;background:var(--wash)}
+  footer .wrap{padding:28px 28px 64px;color:var(--mid);font-size:14.5px;
+               display:flex;gap:22px;flex-wrap:wrap;align-items:center}
+
+  @media (max-width:640px){
+    h1{font-size:35px}.hero{padding:56px 0 46px}.lede{font-size:18px}
+    .btn.ghost{margin:10px 0 0}h2.sec{margin:48px 0 16px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <span class="brand">FlipFindr<span class="dot">.</span></span>
+    <nav class="nav">
+      <a href="#how">How it works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="/privacy.html">Privacy</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <span class="eyebrow">For real estate investors</span>
+    <h1>Score the listings. Send the offers.</h1>
+    <p class="lede">FlipFindr reads your MLS export, ranks every listing by how motivated the
+    seller looks, fills your purchase contract, and emails the offer to the listing agent from
+    your own address.</p>
+    <p class="contrast">Most offer tools help you send <b>more</b> offers.<br>
+    FlipFindr is built to help you send the <b>right</b> ones.</p>
+    <a class="btn" href="mailto:Tyler@flipfindr.io?subject=FlipFindr">Request access</a>
+    <a class="btn ghost" href="#how">See how it works</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <h2 class="sec" id="how">How it works</h2>
+  <ul class="cards">
+    <li class="card step"><div class="n">1</div>
+      <h3>Import</h3>
+      <p>Export listings from your MLS and drop the file in. Columns map themselves, whatever
+      your MLS calls them.</p></li>
+    <li class="card step"><div class="n">2</div>
+      <h3>Score</h3>
+      <p>Every listing is ranked on price reductions, days on market, and the language in the
+      remarks.</p></li>
+    <li class="card step"><div class="n">3</div>
+      <h3>Send</h3>
+      <p>Your contract is filled and emailed to the listing agent, from your address, with the
+      PDF attached.</p></li>
+    <li class="card step"><div class="n">4</div>
+      <h3>Track</h3>
+      <p>Every offer is logged, so you know what went out, to whom, and what came back.</p></li>
+  </ul>
+
+  <h2 class="sec">What it does</h2>
+  <ul class="cards">
+    <li class="card">
+      <div class="ico"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M17 7h4v4"/></svg></div>
+      <h3>Motivation scoring</h3>
+      <p>Price cuts, time on market and seller language are weighted together, so the listings
+      worth an offer rise to the top instead of you reading a thousand rows.</p></li>
+    <li class="card">
+      <div class="ico"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg></div>
+      <h3>Your own contract</h3>
+      <p>Upload the purchase contract you already use in your state and map its fields once.
+      FlipFindr fills your paperwork, not a generic form.</p></li>
+    <li class="card">
+      <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M4 7l8 6 8-6"/></svg></div>
+      <h3>Sent from you</h3>
+      <p>Offers go out from your own email address, so the agent sees your name and replies
+      straight to you. Nothing is branded as us.</p></li>
+    <li class="card">
+      <div class="ico"><svg viewBox="0 0 24 24"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h9"/></svg></div>
+      <h3>Nothing sends itself</h3>
+      <p>You see the offer and the filled contract before anything leaves. There is no
+      automatic blast and no surprise send.</p></li>
+    <li class="card">
+      <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 8v4l3 2"/><circle cx="12" cy="12" r="9"/></svg></div>
+      <h3>Offer history</h3>
+      <p>Every send is recorded with the address, the amount and the agent, so you always know
+      what is outstanding and what came back.</p></li>
+    <li class="card">
+      <div class="ico"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 11-6.2-8.6"/><path d="M22 4l-10 10-3-3"/></svg></div>
+      <h3>CRM logging</h3>
+      <p>If you use a CRM, each offer is logged against the right contact automatically. If you
+      do not, everything still works.</p></li>
+  </ul>
+
+  <h2 class="sec">Why it exists</h2>
+  <div class="founder">
+    <p>I built FlipFindr for my own deals. In the first three days I sent 18 offers with it and
+    got two counters back.</p>
+    <p class="by">Tyler Pugh, Phoenix</p>
+  </div>
+
+  <h2 class="sec">Sending from your own email</h2>
+  <div class="gmail">
+    <h3>Why FlipFindr asks to connect your Gmail</h3>
+    <p>An offer should arrive from the person making it. When you connect your Google Account,
+    FlipFindr sends each approved offer from your own address, so the listing agent sees your
+    name and can simply reply to you.</p>
+    <p>FlipFindr requests one permission, <strong>send email on your behalf</strong>, and
+    nothing more:</p>
+    <ul>
+      <li>It cannot read, search or open any message in your mailbox.</li>
+      <li>It sends only the offers you have reviewed and approved, one at a time.</li>
+      <li>You can disconnect it from your Google Account at any time.</li>
+    </ul>
+    <p style="margin:13px 0 0">Full detail in the <a href="/privacy.html">privacy policy</a>.</p>
+  </div>
+
+  <h2 class="sec" id="pricing">Pricing</h2>
+  <div class="price">
+    <div class="amt">$199<span class="per"> / month</span></div>
+    <ul>
+      <li>Unlimited listings and offers</li>
+      <li>Your own contract templates</li>
+      <li>Send from your own email</li>
+      <li>Offer tracking and history</li>
+      <li>CRM logging</li>
+    </ul>
+    <a class="btn" href="mailto:Tyler@flipfindr.io?subject=FlipFindr">Request access</a>
+    <p class="setup">Set yourself up in about twenty minutes. <strong>Your first week is
+    free.</strong> If you would rather someone did it with you, that is available too.</p>
+  </div>
+
+  <h2 class="sec">Questions</h2>
+  <details><summary>Which MLS does it work with?</summary>
+    <p>Any MLS you can export a CSV from. Columns are mapped when you import, so the field names
+    your MLS uses do not need to match anyone else's.</p></details>
+  <details><summary>Do I need my own purchase contract?</summary>
+    <p>Yes, and that is deliberate. You upload the contract you already use in your state, and
+    map its fields once. FlipFindr fills your paperwork, not a generic template.</p></details>
+  <details><summary>Can it read my email?</summary>
+    <p>No. FlipFindr asks for one Google permission, which allows sending only. It cannot read,
+    search, open or delete anything in your mailbox, and it does not request a permission that
+    would let it.</p></details>
+  <details><summary>Does it send offers automatically?</summary>
+    <p>No. You review each offer and the filled contract, and nothing goes out until you approve
+    it.</p></details>
+  <details><summary>Do I need a CRM?</summary>
+    <p>No. If you use one, FlipFindr can log each sent offer against the right contact. If you do
+    not, everything still works.</p></details>
+  <details><summary>How long does setup take?</summary>
+    <p>You set it up yourself, and it takes about twenty minutes: connect your email, upload
+    your contract and map its fields once, then import your first list. Nothing needs a call
+    with anyone.</p></details>
+
+  <div class="close">
+    <h3>Stop opening listings that were never going to work.</h3>
+    <p>Tell me your market and I will let you know when it opens.</p>
+    <a class="btn" href="mailto:Tyler@flipfindr.io?subject=FlipFindr">Request access</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    <span>&copy; 2026 FlipFindr</span>
+    <a href="/privacy.html">Privacy Policy</a>
+    <a href="mailto:Tyler@flipfindr.io">Tyler@flipfindr.io</a>
+  </div>
+</footer>
+
+</body>
+</html>
