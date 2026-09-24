@@ -32,7 +32,7 @@
   <a class="brand" href="/">FlipFindr</a>
 
   <h1>Privacy Policy</h1>
-  <p class="sub">Last updated 11 September 2026</p>
+  <p class="sub">Last updated 24 September 2026</p>
 
   <p>FlipFindr is software for real estate investors. It scores MLS listings for signs of a
   motivated seller, prepares a purchase offer and the accompanying contract, and sends that
@@ -44,11 +44,22 @@
   <h2>1. Google user data</h2>
 
   <div class="box">
-    <p style="margin:0"><strong>FlipFindr requests one Google permission:
+    <p style="margin:0"><strong>FlipFindr requests one Gmail permission:
     <code>gmail.send</code>.</strong> That permission allows an application to send mail on
     your behalf. It does not allow it to read, search, list, download, modify or delete any
     message in your mailbox, and FlipFindr does none of those things.</p>
+    <p style="margin:10px 0 0">It also requests <code>openid</code> and <code>email</code>,
+    which let it see your Google account's email address. That address is used only to show
+    you which Gmail account is connected.</p>
   </div>
+
+  <h3>Connecting your Gmail</h3>
+  <p>Gmail is connected only when you press <em>Connect Gmail</em> in FlipFindr's settings
+  and approve on Google's own screen. Google then gives FlipFindr a refresh token, which
+  lets it send on your behalf until you disconnect. FlipFindr stores that token on its
+  server, encrypted (AES-256), and tied to your FlipFindr account. It is never shown to you,
+  your browser or anyone else, and it is never written to a log. The short-lived access
+  token Google issues for each send is used once and not stored.</p>
 
   <h3>What we do with it</h3>
   <p>When you review an offer and choose to send it, FlipFindr uses <code>gmail.send</code> to
@@ -68,12 +79,14 @@
   </ul>
 
   <h3>What is retained</h3>
-  <p>FlipFindr stores the identifier Gmail returns for a message it sent, together with the
-  recipient address, the subject line, the property address, the MLS number and the offer
-  amount. This record exists so that a sent offer can be traced afterwards. It is written to
-  your own customer relationship management system and to a log file on the machine running
-  FlipFindr's sending component. The body of the message is stored only where you direct it,
-  in your own CRM.</p>
+  <p>For your Google connection, FlipFindr keeps the encrypted refresh token, the connected
+  email address, and the permissions Google granted. These are deleted when you disconnect.</p>
+  <p>For each offer it sends, FlipFindr keeps the identifier Gmail returns, together with
+  the recipient address, the subject line, the property address, the MLS number and the
+  offer amount, so that a sent offer can be traced afterwards and is not sent twice. This
+  record is kept in your FlipFindr account. If you connect a CRM, it is also written there.
+  The body of the message is not stored by FlipFindr. It is an ordinary email in your own
+  Sent folder.</p>
 
   <p>FlipFindr's use and transfer of information received from Google APIs adheres to the
   <a href="https://developers.google.com/terms/api-services-user-data-policy"
@@ -85,19 +98,24 @@
   <table>
     <tr><th>Data</th><th>Where it lives</th><th>Why</th></tr>
     <tr>
+      <td>Your sign-in (name and email address)</td>
+      <td>Clerk, our sign-in provider</td>
+      <td>So only you can open your account</td>
+    </tr>
+    <tr>
       <td>MLS listing exports you import</td>
-      <td>Your browser, on your own device</td>
-      <td>To score and rank listings</td>
+      <td>Your FlipFindr account on our server, and your browser</td>
+      <td>To score and rank listings, on any device you sign in from</td>
     </tr>
     <tr>
       <td>Contract templates you upload, and the filled contracts produced from them</td>
-      <td>Your browser, on your own device</td>
+      <td>Your FlipFindr account on our server, and your browser</td>
       <td>To attach a completed contract to an offer</td>
     </tr>
     <tr>
-      <td>Your notes, offer amounts and status tracking</td>
-      <td>Your browser, on your own device</td>
-      <td>So you can work a list across sessions</td>
+      <td>Your notes, offer amounts, status tracking and agent contacts</td>
+      <td>Your FlipFindr account on our server, and your browser</td>
+      <td>So you can work a list across sessions and devices</td>
     </tr>
     <tr>
       <td>Your CRM API key, if you connect one</td>
@@ -105,18 +123,23 @@
       <td>To log sent offers to your CRM</td>
     </tr>
     <tr>
-      <td>A log of offers sent</td>
-      <td>The machine running the sending component</td>
+      <td>A log of offers sent, if you send through a local relay instead of connecting Gmail</td>
+      <td>The machine running the relay</td>
       <td>So a send can be traced and not repeated</td>
     </tr>
   </table>
 
-  <p>Listing data and contracts are held in your browser's local storage. They are not
-  uploaded to us and we do not operate a database of them.</p>
+  <p>Data in your FlipFindr account is private to your account. No other user can read it.
+  We do not sell it, share it, or combine it with other users' data. MLS data you import is
+  yours, and you are responsible for having the right to use it.</p>
 
   <h2>3. Services the software contacts</h2>
   <ul>
-    <li><strong>Google (Gmail API)</strong> — to send an offer you have approved.</li>
+    <li><strong>Google (Gmail API and Google sign-in)</strong> — to connect your Gmail and
+    to send an offer you have approved.</li>
+    <li><strong>Clerk</strong> — to sign you in to FlipFindr.</li>
+    <li><strong>FlipFindr's server</strong> (hosted on DigitalOcean) — to store your account
+    data and your encrypted Google connection.</li>
     <li><strong>Your CRM</strong> — if you connect one, to record the offer against the
     relevant contact.</li>
     <li><strong>cdnjs.cloudflare.com</strong> — to load the PDF library used to fill
@@ -125,22 +148,26 @@
   </ul>
 
   <h2>4. Retention and deletion</h2>
-  <p>Data held in your browser stays until you clear it, and you can clear it at any time
-  through your browser or by removing a session in the application. The sent-offer log is a
-  plain file you control and may delete. Records written to your CRM are yours and are
-  governed by your own CRM settings.</p>
+  <p>Your Google connection is deleted from our server the moment you press
+  <em>Disconnect</em> in FlipFindr, and FlipFindr also revokes it at Google. Data in your
+  FlipFindr account stays until you remove it in the application or ask us to delete your
+  account at <a href="mailto:Tyler@flipfindr.io">Tyler@flipfindr.io</a>, which we do within
+  30 days. Data held in your browser stays until you clear it. Records written to your CRM
+  are yours and are governed by your own CRM settings.</p>
 
   <h2>5. Revoking access</h2>
-  <p>You can disconnect FlipFindr from your Google Account at any time at
-  <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener">Google
-  Account permissions</a>. Revoking access stops FlipFindr from sending any further mail on
+  <p>You can disconnect Gmail at any time with <em>Disconnect</em> in FlipFindr's settings,
+  or at <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener">Google
+  Account permissions</a>. Either one stops FlipFindr from sending any further mail on
   your behalf immediately. It does not delete offers already sent, which are ordinary emails
   in your own Sent folder.</p>
 
   <h2>6. Security</h2>
-  <p>Credentials are stored on the machine you run FlipFindr's sending component on, not on
-  servers we operate. Access to the sending component is restricted by a shared secret and,
-  by default, is not reachable from the public internet.</p>
+  <p>All traffic between your browser, FlipFindr's server and Google is encrypted in transit
+  (HTTPS). Google refresh tokens are encrypted at rest with a key that exists only on
+  FlipFindr's server, and each one is bound to its own account so that it cannot be used
+  by any other. Every request to your account data requires you to be signed in, and an
+  account can read only its own data.</p>
 
   <h2>7. Children</h2>
   <p>FlipFindr is a business tool and is not directed to anyone under 18.</p>
