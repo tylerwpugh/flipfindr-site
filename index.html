@@ -34,7 +34,7 @@
     <div class="container nav">
       <a class="wordmark" href="#top" aria-label="FlipFindr home"><img class="wordmark-mark" src="brand/flipfindr-mark-512.png" alt="" width="34" height="34" decoding="async">FlipFindr<span>.</span></a>
       <button class="menu-toggle" type="button" aria-label="Open navigation" aria-controls="navigation" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
-      <nav class="nav-links" id="navigation" aria-label="Main navigation"><a href="#how-it-works">How it works</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a><button class="button primary" type="button" data-trial>Start free for 7 days <span aria-hidden="true">↗</span></button></nav>
+      <nav class="nav-links" id="navigation" aria-label="Main navigation"><a href="#how-it-works">How it works</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a><a href="https://app.flipfindr.io/?view=sign-in">Sign in</a><button class="button primary" type="button" data-trial>Start free for 7 days <span aria-hidden="true">↗</span></button></nav>
     </div>
   </header>
   <main id="main">
@@ -107,8 +107,8 @@
   <script>
     (() => {
       'use strict';
-      // Set this to the verified signup URL when connecting the live website.
-      const SIGNUP_URL = '';
+      // The app's own sign-up screen. Every "Start free for 7 days" button goes here.
+      const SIGNUP_URL = 'https://app.flipfindr.io/?view=sign-up';
       const menuButton = document.querySelector('.menu-toggle');
       const menu = document.getElementById('navigation');
       const dialog = document.getElementById('trial-dialog');
